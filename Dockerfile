@@ -15,7 +15,7 @@ RUN npm install
 COPY . .
 
 # Run the prisma generator
-RUN npm run prisma:gen
+RUN npm run db:migrate
 
 # Build the application
 RUN npm run build
@@ -32,9 +32,10 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/tsconfig.* ./
 COPY --from=builder /app/common ./common
+COPY --from=builder /app/.env ./
 
 # Expose the port that your NestJS app will listen on
-EXPOSE 3000
+EXPOSE 23000
 
 # Start the application in production mode
 CMD ["npm", "run", "start:prod"]
